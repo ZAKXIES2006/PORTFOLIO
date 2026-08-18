@@ -5,7 +5,6 @@ class BankAccount
     public string Owner { get; set; }
     public decimal Balance { get; set; }
 
-    
     public BankAccount(string owner, decimal balance)
     {
         Owner = owner;
@@ -36,9 +35,18 @@ class BankAccount
 
         Balance -= amount;
     }
+
+    // Virtual method
+    public virtual void DisplayAccountInfo()
+    {
+        Console.WriteLine("Account: BankAccount");
+        Console.WriteLine("Owner: " + Owner);
+        Console.WriteLine("Balance: $" + Balance);
+    }
 }
 
 
+// SavingsAccount inherits from BankAccount
 class SavingsAccount : BankAccount
 {
     public decimal InterestRate { get; set; }
@@ -54,9 +62,19 @@ class SavingsAccount : BankAccount
         decimal interest = Balance * InterestRate / 100;
         Balance += interest;
     }
+
+    // Override the virtual method
+    public override void DisplayAccountInfo()
+    {
+        Console.WriteLine("Account: SavingsAccount");
+        Console.WriteLine("Owner: " + Owner);
+        Console.WriteLine("Balance: $" + Balance);
+        Console.WriteLine("Interest rate: " + InterestRate + "%");
+    }
 }
 
 
+// CheckingAccount inherits from BankAccount
 class CheckingAccount : BankAccount
 {
     public decimal TransactionFee { get; set; }
@@ -67,7 +85,6 @@ class CheckingAccount : BankAccount
         TransactionFee = transactionFee;
     }
 
-    // Override Withdraw to include transaction fee
     public override void Withdraw(decimal amount)
     {
         decimal totalCost = amount + TransactionFee;
@@ -79,10 +96,21 @@ class CheckingAccount : BankAccount
 
         if (totalCost > Balance)
         {
-            throw new InvalidOperationException("Insufficient balance including transaction fee.");
+            throw new InvalidOperationException(
+                "Insufficient balance including transaction fee."
+            );
         }
 
         Balance -= totalCost;
+    }
+
+    // Override the virtual method
+    public override void DisplayAccountInfo()
+    {
+        Console.WriteLine("Account: CheckingAccount");
+        Console.WriteLine("Owner: " + Owner);
+        Console.WriteLine("Balance: $" + Balance);
+        Console.WriteLine("Transaction fee: $" + TransactionFee);
     }
 }
 
@@ -92,36 +120,22 @@ class Program
     static void Main()
     {
         SavingsAccount savings = new SavingsAccount(
-            "Zak",
-            1000m,
-            5m
+            "Jordan",
+            1500m,
+            3.5m
         );
 
-        Console.WriteLine("=== Savings Account ===");
-        Console.WriteLine("Owner: " + savings.Owner);
-        Console.WriteLine("Starting balance: $" + savings.Balance);
-        Console.WriteLine("Interest rate: " + savings.InterestRate + "%");
-
-        savings.ApplyInterest();
-
-        Console.WriteLine("Balance after interest: $" + savings.Balance);
-
-
-        
         CheckingAccount checking = new CheckingAccount(
-            "Ahmed",
-            1000m,
+            "Alex",
+            2000m,
             2m
         );
 
+        // Display information for both accounts
+        savings.DisplayAccountInfo();
+
         Console.WriteLine();
-        Console.WriteLine("=== Checking Account ===");
-        Console.WriteLine("Owner: " + checking.Owner);
-        Console.WriteLine("Starting balance: $" + checking.Balance);
-        Console.WriteLine("Transaction fee: $" + checking.TransactionFee);
 
-        checking.Withdraw(100m);
-
-        Console.WriteLine("Balance after $100 withdrawal + fee: $" + checking.Balance);
+        checking.DisplayAccountInfo();
     }
 }
