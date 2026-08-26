@@ -1,0 +1,4 @@
+symbols vs tachyonGrid / [..^1]: Split("\n") leaves an extra empty string element at the end of symbols. The range slice [^1] copies all items except that last empty line into tachyonGrid.
+item.Index(): It yields a tuple of (int Index, char Item). In each loop iteration, posX receives the column index and character receives the character at that position.
+Splitter Edge Case (.|.|. above ^.^): When two splitters place a '|' into the exact same middle cell, writing '|' over an existing '|' is harmless (idempotent), so the grid remains visually correct.
+wh y Why the output is incorrect: totalCount remains 0 because processSplitter() returns void and no code adds to totalCount when a split occurs.
