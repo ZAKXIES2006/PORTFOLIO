@@ -1,85 +1,82 @@
 ﻿using System;
+using System.Collections.Generic;
 
 class Program
 {
     static void Main()
     {
 
-        string[] names =
-        {
-            "zak",
-            "hamdan",
-            "William",
-            "Amelia",
-            "Benjamin",
-            "Sophia",
-            "Alexander",
-            "Isabella",
-            "Christopher",
-            "Elizabeth"
-        };
+        List<string> students = new List<string>();
 
-        Console.WriteLine("Original Array:");
-        foreach (string name in names)
+
+        students.Add("Alice");
+        students.Add("Bob");
+        students.Add("Charlie");
+
+        students.Insert(1, "David");
+
+ 
+        string[] newBatch = { "Daniel", "Emma", "Danielle", "Frank", "Grace" };
+        students.AddRange(newBatch);
+
+     
+        students.Remove("Bob");
+
+        students.Add("Hannah");
+        students.Add("Ian");
+        students.Add("Jack");
+
+        Console.WriteLine("Current Student List (Count: " + students.Count + ")");
+        Console.WriteLine(string.Join(", ", students));
+
+        string searchExact = "Emma";
+        int exactIndex = students.IndexOf(searchExact);
+
+        Console.WriteLine("\n Exact Search ");
+        if (exactIndex != -1)
         {
-            Console.WriteLine(name);
+            Console.WriteLine($"Found '{searchExact}' at index: {exactIndex}");
+        }
+        else
+        {
+            Console.WriteLine($"'{searchExact}' was not found in the list.");
         }
 
-        string longest = names[0];
-        string shortest = names[0];
+        string partialTerm = "Dan";
+        List<string> matches = new List<string>();
 
-        foreach (string name in names)
+        foreach (string name in students)
         {
-            if (name.Length > longest.Length)
+            if (name.Contains(partialTerm, StringComparison.OrdinalIgnoreCase))
             {
-                longest = name;
-            }
-
-            if (name.Length < shortest.Length)
-            {
-                shortest = name;
+                matches.Add(name);
             }
         }
 
-        Console.WriteLine();
-        Console.WriteLine("Longest name: " + longest);
-        Console.WriteLine("Shortest name: " + shortest);
+        Console.WriteLine("\nPartial Search ");
+        Console.WriteLine($"Names containing '{partialTerm}': " + string.Join(", ", matches));
 
-        Console.WriteLine();
-        Console.WriteLine("Array before sorting:");
-        foreach (string name in names)
+        int totalCharacters = 0;
+        foreach (string name in students)
         {
-            Console.Write(name + " ");
+            totalCharacters += name.Length;
         }
 
-        // Sort the array
-        Array.Sort(names);
+        Console.WriteLine("\nTotal Name Lengths");
+        Console.WriteLine($"Sum of all name lengths: {totalCharacters} characters");
 
-        // Print array after sorting
-        Console.WriteLine();
-        Console.WriteLine("Array after sorting:");
-        foreach (string name in names)
-        {
-            Console.Write(name + " ");
-        }
+        string[] task1Array = { "Alexander", "Mia", "Benjamin", "Charlotte", "Eli" };
 
-        Console.WriteLine();
-        Console.WriteLine();
-        Console.WriteLine("Array before reversing:");
-        foreach (string name in names)
-        {
-            Console.Write(name + " ");
-        }
 
-        Array.Reverse(names);
+        List<string> task1List = new List<string>(task1Array);
 
-        Console.WriteLine();
-        Console.WriteLine("Array after reversing:");
-        foreach (string name in names)
-        {
-            Console.Write(name + " ");
-        }
+        Console.WriteLine("\nMerging Task 1 Array into List");
+        Console.WriteLine("Task 1 converted List: " + string.Join(", ", task1List));
 
-        Console.WriteLine();
+    
+        students.AddRange(task1List);
+
+        Console.WriteLine("Final Combined List (Count: " + students.Count + "):");
+        Console.WriteLine(string.Join(", ", students));
     }
 }
