@@ -1,0 +1,12 @@
+ncapsulation in C# means keeping an object's data protected so it can only be changed in controlled ways. 
+In my BankAccount class, Balance has a private set, so the only way to change it is through Deposit and Withdraw, 
+which check the amount first. This stops the balance from going negative or being set to an invalid value from outside the class.
+
+Access modifiers like public and private are important because they control what other code can see and use.
+ They let me hide the internal details of a class and only expose a safe interface, which prevents misuse and means I 
+ can change how the class works inside without breaking the code that uses it. 
+ For example, Balance has a public get so anyone can read it, but a private set so only the class can change it.
+
+To a Python programmer, I would explain that Python doesn't really have method overloading, 
+because defining a function twice just replaces the first one, so you would use default arguments or type 
+checks inside one function instead.
