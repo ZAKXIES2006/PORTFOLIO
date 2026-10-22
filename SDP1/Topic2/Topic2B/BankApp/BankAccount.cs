@@ -17,6 +17,15 @@ public class BankAccount
             throw new ArgumentException("Deposit amount must be positive.");
         Balance += amount;
     }
+     public void Deposit(int amount)
+    {
+        Deposit((decimal)amount);
+    }
+
+    public void Deposit(double amount)
+    {
+        Deposit((decimal)amount);
+    }
 
     public void Withdraw(decimal amount)
     {
