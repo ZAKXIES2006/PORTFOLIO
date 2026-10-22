@@ -1,0 +1,8 @@
+Task 2 Polymorphism
+
+My List<Employee> holds both FullTimeEmployee and Contractor objects,
+ so I can treat them all as Employees and loop over them with one foreach. 
+ When I call CalculatePay() on each one, C# checks the actual type of the object at runtime and runs that class's overridden version.
+  So a FullTimeEmployee works out pay from its annual salary, while a Contractor uses rate times hours.
+   The loop code is the same for both, but the output is different because each class provides its own implementation of the
+    abstract method.
