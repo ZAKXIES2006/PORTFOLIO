@@ -78,7 +78,69 @@ namespace GraphDemo
                 Console.WriteLine($"{target} was not found.");
             }
         }
-        public override string ToString()
+        
+                // Depth First Search from start to target, prints Checked and the Path
+        public void DepthFirstSearch(Node<T> start, Node<T> target)
+        {
+            var checkedNodes = new List<Node<T>>();
+            var stacked = new Stack<Node<T>>();
+            // records where we came from
+            var parents = new Dictionary<Node<T>, Node<T>?>();
+            bool found = false;
+
+            stacked.Push(start);
+            parents[start] = null;
+
+            while (stacked.Count > 0)
+            {
+                var current = stacked.Pop();
+
+                if (checkedNodes.Contains(current))
+                {
+                    continue;
+                }
+
+                if (current == target)
+                {
+                    found = true;
+                    break;
+                }
+                checkedNodes.Add(current);
+
+                foreach (var neighbour in current.Edges)
+                {
+                    if (checkedNodes.Contains(neighbour))
+                    {
+                        continue;
+                    }
+
+                    stacked.Push(neighbour);
+                    parents[neighbour] = current;
+                }
+            }
+
+            Console.WriteLine($"Checked: {string.Join(", ", checkedNodes)}");
+
+            if (found)
+            {
+                var path = new List<Node<T>>();
+                Node<T>? step = target;
+                while (step != null)
+                {
+                    path.Add(step);
+                    step = parents[step];
+                }
+                path.Reverse();
+
+                Console.WriteLine($"Found {target}! Path: {string.Join(" -> ", path)}");
+            }
+            else
+            {
+                Console.WriteLine($"{target} was not found.");
+            }
+        }
+        
+                public override string ToString()
         {
             var sb = new StringBuilder();
  
