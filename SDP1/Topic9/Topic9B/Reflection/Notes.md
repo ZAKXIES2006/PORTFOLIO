@@ -1,0 +1,5 @@
+
+My Dijkstra's starts byby  setting every node's distance to infinity except Start which is 0, then puts Start in a priority queue. Each loop it takes out the node with the smallest distance so far. For each neighbour it adds the edge weight to the current distance, and if that's shorter than what we had saved for that neighbour, it updates the distance, saves current as the neighbour's parent, and adds the neighbour to the queue. It stops when it pulls out END. Then I follow the parents back from END to Start and reverse it to get the path. Because the bee edges cost 5, going around them (total 10) ends up cheaper than going through them, so it avoids the bees, unlike BFS which just took the fewest steps.
+
+q2
+Dijkstra's is O(v+E  log |V|) with a priority queue. It's slower than BFS/DFS's O(V + E) because every time we add or remove from the priority queue it has to keep things sorted by distance, which costs log |V|. BFS and DFS just use a normal queue or stack where adding and removing is instant, but they don't care about weights so they can't find the cheapest path.
