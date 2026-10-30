@@ -29,7 +29,6 @@ class Program
         Queue<string> printJobs = new Queue<string>();
         PrintQueue("Initial queue", printJobs);
 
-    
         printJobs.Enqueue("Print Job 1");
         printJobs.Enqueue("Print Job 2");
         printJobs.Enqueue("Print Job 3");
@@ -39,10 +38,42 @@ class Program
         Console.WriteLine($"Peek (next job to print): {printJobs.Peek()}");
         PrintQueue("After Peek (unchanged)", printJobs);
 
-        // Dequeue: print (remove) the job at the front
         string printed = printJobs.Dequeue();
         Console.WriteLine($"Dequeue (printed): {printed}");
         PrintQueue("After Dequeue", printJobs);
+
+        Console.WriteLine();
+        Console.WriteLine("TASK 3 - Stack<BankAccount> to Queue<BankAccount>");
+
+        Stack<BankAccount> accountStack = new Stack<BankAccount>();
+        accountStack.Push(new BankAccount("Zak", 1500.50m));
+        accountStack.Push(new BankAccount("Blago", 2400.00m));
+        accountStack.Push(new BankAccount("Barney", 320.10m));
+        accountStack.Push(new BankAccount("Eli", 8500.25m));
+        accountStack.Push(new BankAccount("Judith", 5100.75m));
+        accountStack.Push(new BankAccount("Randeep", 9900.00m));
+        accountStack.Push(new BankAccount("Isaac", 6400.40m));
+        accountStack.Push(new BankAccount("Arne", 7100.00m));
+        accountStack.Push(new BankAccount("G-Man", 0.00m));
+        accountStack.Push(new BankAccount("Odessa", 150.00m));
+
+        Console.WriteLine("Stack<BankAccount> (top to bottom):");
+        PrintAccounts(accountStack);
+
+        Queue<BankAccount> accountQueue = StackToQueue(accountStack);
+
+        Console.WriteLine("Queue<BankAccount> (front to back):");
+        PrintAccounts(accountQueue);
+    }
+
+    static Queue<BankAccount> StackToQueue(Stack<BankAccount> stack)
+    {
+        Queue<BankAccount> queue = new Queue<BankAccount>();
+        foreach (BankAccount account in stack)
+        {
+            queue.Enqueue(account);
+        }
+        return queue;
     }
 
     static void PrintStack(string label, Stack<string> stack)
@@ -53,5 +84,15 @@ class Program
     static void PrintQueue(string label, Queue<string> queue)
     {
         Console.WriteLine($"{label}: [{string.Join(", ", queue)}]  (count {queue.Count})");
+    }
+
+    static void PrintAccounts(IEnumerable<BankAccount> accounts)
+    {
+        int position = 1;
+        foreach (BankAccount account in accounts)
+        {
+            Console.WriteLine($"  {position}. {account.Owner} - ${account.Balance:N2}");
+            position++;
+        }
     }
 }
