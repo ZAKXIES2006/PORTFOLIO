@@ -64,6 +64,17 @@ class Program
 
         Console.WriteLine("Queue<BankAccount> (front to back):");
         PrintAccounts(accountQueue);
+
+        Console.WriteLine();
+        Console.WriteLine("TASK 4 - SortQueue (lowest balance first)");
+
+        Console.WriteLine("Queue before sorting:");
+        PrintAccounts(accountQueue);
+
+        Queue<BankAccount> sortedQueue = SortQueue(accountQueue);
+
+        Console.WriteLine("Queue after sorting:");
+        PrintAccounts(sortedQueue);
     }
 
     static Queue<BankAccount> StackToQueue(Stack<BankAccount> stack)
@@ -74,6 +85,40 @@ class Program
             queue.Enqueue(account);
         }
         return queue;
+    }
+
+    static Queue<BankAccount> SortQueue(Queue<BankAccount> input)
+    {
+        Queue<BankAccount> sorted = new Queue<BankAccount>();
+        Queue<BankAccount> temp = new Queue<BankAccount>();
+
+        while (input.Count > 0)
+        {
+            BankAccount lowest = input.Peek();
+
+            while (input.Count > 0)
+            {
+                BankAccount account = input.Dequeue();
+                if (account.Balance < lowest.Balance)
+                {
+                    lowest = account;
+                }
+                temp.Enqueue(account);
+            }
+
+            while (temp.Count > 0)
+            {
+                BankAccount account = temp.Dequeue();
+                if (account != lowest)
+                {
+                    input.Enqueue(account);
+                }
+            }
+
+            sorted.Enqueue(lowest);
+        }
+
+        return sorted;
     }
 
     static void PrintStack(string label, Stack<string> stack)
