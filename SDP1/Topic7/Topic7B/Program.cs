@@ -24,9 +24,7 @@ class Program
     static void Main()
     {
         var sortedScores = new SortedDictionary<int, string>();
-//integers is the key, name is the value. 
-//.take()take sthe bottom 3 values... whilst .reverse().take() takes the top... 
-//keys must be unique 
+
 
 
 
@@ -94,10 +92,11 @@ class Program
         try
         {
             naiveDict.Add(new ScoreEntry(100, 1), new Player("Test"));
+            naiveDict.Add(new ScoreEntry(200, 2), new Player("Test2"));
         }
-        catch (InvalidOperationException ex)
+        catch (Exception ex)
         {
-            Console.WriteLine($"Expected Error: {ex.Message}\n");
+            Console.WriteLine($"Expected Error: {ex.GetType().Name}: {ex.Message}\n");
         }
 
         var sortedScores2 = new SortedDictionary<ScoreEntry, Player>(new ScoreComparer());
@@ -125,13 +124,13 @@ class Program
         sortedScores2.Add(new ScoreEntry(780, 7, time.AddMinutes(9)), p9);
         sortedScores2.Add(new ScoreEntry(540, 5, time.AddMinutes(10)), p10);
 
-        Console.WriteLine("--- Task 2: Top 3 Scores ---");
+        Console.WriteLine("Task 2: Top 3 Scores ");
         foreach (var entry in sortedScores2.Reverse().Take(3))
         {
             Console.WriteLine($"{entry.Value.Name} -> {entry.Key}");
         }
 
-        Console.WriteLine("\n--- Task 2: Bottom 3 Scores ---");
+        Console.WriteLine("\nTask 2: Bottom 3 Scores ");
         foreach (var entry in sortedScores2.Take(3))
         {
             Console.WriteLine($"{entry.Value.Name} -> {entry.Key}");
@@ -143,7 +142,7 @@ class Program
             sortedScores2.Remove(toRemove.Key);
         }
 
-        Console.WriteLine("\n--- Task 2: Remaining Players ---");
+        Console.WriteLine("\nTask 2: Remaining Players ");
         foreach (var entry in sortedScores2)
         {
             Console.WriteLine($"{entry.Value.Name} -> {entry.Key}");
