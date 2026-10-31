@@ -13,7 +13,6 @@ public class ScoreComparer : IComparer<ScoreEntry>
         if (scoreComp != 0) return scoreComp;
 
         int stageComp = x.StageReached.CompareTo(y.StageReached);
-        //if scores are not equal, we have a winner
         if (stageComp != 0) return stageComp;
 
         return x.AchievedAt.CompareTo(y.AchievedAt);
@@ -41,14 +40,14 @@ class Program
         sortedScores.Add(780, "Jack");
 
         // 2. this prints the top 3 scores
-        Console.WriteLine("--- Top 3 Scores ---");
+        Console.WriteLine("Top 3 Scores ");
         foreach (var entry in sortedScores.Reverse().Take(3))
         {
             Console.WriteLine($"{entry.Value}: {entry.Key}");
         }
 
         // 3. this 3ill print the bottom 3 scores
-        Console.WriteLine("\n--- Bottom 3 Scores ---");
+        Console.WriteLine("\n Bottom 3 Scores ");
         foreach (var entry in sortedScores.Take(3))
         {
             Console.WriteLine($"{entry.Value}: {entry.Key}");
@@ -156,6 +155,60 @@ class Program
         var replayKey = new ScoreEntry(920, 9, DateTime.Now);
         sortedScores2.Add(replayKey, p1);
         Console.WriteLine($"Added new score for existing player: {p1.Name} -> {replayKey}");
+
+        Console.WriteLine("\nTask 3: PriorityQueue<Player, int> ");
+        var EventQueue = new PriorityQueue<Player, int>();
+        EventQueue.Enqueue(p1, 3);
+        EventQueue.Enqueue(p2, 1);
+        EventQueue.Enqueue(p3, 5);
+        EventQueue.Enqueue(p4, 2);
+        EventQueue.Enqueue(p5, 4);
+
+        while (EventQueue.TryDequeue(out Player? player, out int priority))
+        {
+            Console.WriteLine($"[Priority {priority}] {player.Name}");
+        }
+
+        Console.WriteLine("\nTask 3: Players with the same priority ");
+        EventQueue.Enqueue(p6, 2);
+        EventQueue.Enqueue(p7, 1);
+        EventQueue.Enqueue(p8, 1);
+        EventQueue.Enqueue(p9, 3);
+
+        while (EventQueue.TryDequeue(out Player? player, out int priority))
+        {
+            Console.WriteLine($"[Priority {priority}] {player.Name}");
+        }
+
+        Console.WriteLine("\n Task 4: PriorityQueue<Player, Priority> ");
+        var EventQueue2 = new PriorityQueue<Player, Priority>();
+        EventQueue2.Enqueue(p1, Priority.LowPriority);
+        EventQueue2.Enqueue(p2, Priority.HighPriority);
+        EventQueue2.Enqueue(p3, Priority.MediumPriority);
+        EventQueue2.Enqueue(p4, Priority.LowPriority);
+        EventQueue2.Enqueue(p5, Priority.HighPriority);
+
+        while (EventQueue2.TryDequeue(out Player? player, out Priority priority))
+        {
+            Console.WriteLine($"[{priority}] {player.Name}");
+        }
+
+        Console.WriteLine("\nTask 4: Players with the same priority ");
+        EventQueue2.Enqueue(p6, Priority.MediumPriority);
+        EventQueue2.Enqueue(p7, Priority.HighPriority);
+        EventQueue2.Enqueue(p8, Priority.HighPriority);
+        EventQueue2.Enqueue(p9, Priority.LowPriority);
+
+        while (EventQueue2.TryDequeue(out Player? player, out Priority priority))
+        {
+            Console.WriteLine($"[{priority}] {player.Name}");
+        }
     }
     
+}
+public enum Priority
+{
+    HighPriority,
+    MediumPriority,
+    LowPriority,
 }
