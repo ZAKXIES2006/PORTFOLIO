@@ -1,0 +1,10 @@
+List.OrderBy(x => x) returns an IOrderedEnumerable<string>. The reason .OrderBy() returns the ordered results instead of sorting the list in place is because LINQ does not change the original collection, but instead creates a new sequence with the elements in the required order. The x => x part is a lambda expression that is used as the key selector, which tells LINQ what value to use when sorting. In this case, since the list contains strings, x itself is used as the sorting key. The x represents the current item being processed, and it can be given any valid name, such as item or name. It doesn't need to have a type written next to it because C# can infer the type from the list, so since the list is a List<string>, the compiler knows that x is a string.
+
+Did the syntax need to change between your Stack and Queue select? Why or why not?
+No, the syntax is identical. Both Stack<T> and Queue<T> implement IEnumerable<T>. Because LINQ extension methods target the IEnumerable<T> interface rather than concrete collection types, the exact same queries work regardless of the underlying collection.
+
+I prefer LINQ to the sorting algorithm from last prac. The SortQueue method took about 30 lines with nested loops and a temp queue, but with LINQ I can filter, sort and select in one chain like .Where().OrderBy().Select(). Writing the sort by hand was still useful though, because it showed me what's actually happening behind OrderBy.
+
+The LINQ syntax felt unusual at first, especially the lambdas and arrows, but once I started reading it left to right like a sentence ("where the owner contains e, order by balance, select the owner and balance") it became pretty intuitive.
+
+No, the syntax didn't need to change between the Stack and the Queue. Both implement IEnumerable<T>, and LINQ methods work on anything that's IEnumerable, so the exact same query works on both. The only difference is the order the items come out in before sorting, but since I use OrderBy the results end up the same.
