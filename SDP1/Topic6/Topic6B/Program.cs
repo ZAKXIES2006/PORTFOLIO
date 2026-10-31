@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 
-// BankAccount model required for Tasks 2 and 3
 
 class Program
 {
