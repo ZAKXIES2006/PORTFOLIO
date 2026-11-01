@@ -1,0 +1,4 @@
+What happens if the text file already exists when you write to it?
+It gets overwritten. File.CreateText wipes the old contents and starts fresh, so the previous text is lost.
+What does the @ symbol before the quoted string mean?
+It makes a verbatim string, which means backslashes are treated as normal characters rather than escape codes.
