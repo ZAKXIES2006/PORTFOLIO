@@ -91,3 +91,53 @@ foreach (int size in sizes)
 
     Console.WriteLine($"{size,8:N0} chars  |  Append: {appendTime,8:F4}s  |  Build: {buildTime,8:F6}s");
 }
+
+Console.WriteLine("\nTASK 3 - Graphing Append vs Build");
+
+int iterations = 40;
+List<double> appendElapsedList = new List<double>();
+List<double> builderElapsedList = new List<double>();
+
+for (int pass = 1; pass <= iterations; pass++)
+{
+    string aOutput = "";
+    watch.Restart();
+    for (int i = 0; i < pass * 10_000; i++)
+    {
+        aOutput += "z";
+    }
+    watch.Stop();
+    appendElapsedList.Add(watch.Elapsed.TotalSeconds);
+    Console.WriteLine($"Append pass {pass,2}: {watch.Elapsed.TotalSeconds:F4}s");
+}
+
+for (int pass = 1; pass <= iterations; pass++)
+{
+    StringBuilder bOutput = new();
+    watch.Restart();
+    for (int i = 0; i < pass * 10_000; i++)
+    {
+        bOutput.Append("z");
+    }
+    watch.Stop();
+    builderElapsedList.Add(watch.Elapsed.TotalMilliseconds);
+    Console.WriteLine($"Build pass {pass,2}: {watch.Elapsed.TotalMilliseconds:F4}ms");
+}
+
+double[] passes = Enumerable.Range(1, iterations).Select(p => (double)p).ToArray();
+
+ScottPlot.Plot appendPlot = new();
+appendPlot.Add.Bars(passes, appendElapsedList.ToArray());
+appendPlot.Title("Append (+=) time per pass");
+appendPlot.XLabel("Pass (x 10,000 characters)");
+appendPlot.YLabel("Time (seconds)");
+appendPlot.SavePng("Screenshots/appendPlot.png", 800, 600);
+
+ScottPlot.Plot buildPlot = new();
+buildPlot.Add.Bars(passes, builderElapsedList.ToArray());
+buildPlot.Title("StringBuilder time per pass");
+buildPlot.XLabel("Pass (x 10,000 characters)");
+buildPlot.YLabel("Time (milliseconds)");
+buildPlot.SavePng("Screenshots/buildPlot.png", 800, 600);
+
+Console.WriteLine("\nSaved Screenshots/appendPlot.png and Screenshots/buildPlot.png");
