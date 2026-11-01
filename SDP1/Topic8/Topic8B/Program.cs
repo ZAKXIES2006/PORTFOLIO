@@ -8,9 +8,12 @@ class Test
     {
         Task1();
         Task2();
+        Task3();
+        Task4();
+        Task5();
     }
 
-    // task 1 
+
     static void Task1()
     {
         Console.WriteLine("Task 1");
@@ -129,6 +132,52 @@ class Test
         Console.WriteLine($"PeakWorkingSet64: {peakBytes:N0} bytes");
     }
 
+
+    static void Task5()
+    {
+        Console.WriteLine("\n Task 5 ");
+
+        (long listHeap, long listPeak) = MeasureList();
+        GC.Collect();
+        (long linkedHeap, long linkedPeak) = MeasureLinkedList();
+
+        Console.WriteLine($"List<Player>       HeapSizeBytes: {listHeap,12:N0}   PeakWorkingSet64: {listPeak,14:N0}");
+        Console.WriteLine($"LinkedList<Player> HeapSizeBytes: {linkedHeap,12:N0}   PeakWorkingSet64: {linkedPeak,14:N0}");
+    }
+
+    static (long, long) MeasureList()
+    {
+        List<Player> players = new List<Player>();
+        for (int i = 0; i < 10_000; i++)
+        {
+            players.Add(new Player($"Player{i}"));
+        }
+        FileWriter(@"./players_list.json", players);
+        List<Player> loaded = FileReader<List<Player>>(@"./players_list.json");
+
+        GC.Collect();
+        long heap = GC.GetGCMemoryInfo().HeapSizeBytes;
+        long peak = Process.GetCurrentProcess().PeakWorkingSet64;
+        Console.WriteLine($"Loaded {loaded.Count} players into a List");
+        return (heap, peak);
+    }
+
+    static (long, long) MeasureLinkedList()
+    {
+        LinkedList<Player> players = new LinkedList<Player>();
+        for (int i = 0; i < 10_000; i++)
+        {
+            players.AddLast(new Player($"Player{i}"));
+        }
+        FileWriter(@"./players_linkedlist.json", players);
+        LinkedList<Player> loaded = FileReader<LinkedList<Player>>(@"./players_linkedlist.json");
+
+        GC.Collect();
+        long heap = GC.GetGCMemoryInfo().HeapSizeBytes;
+        long peak = Process.GetCurrentProcess().PeakWorkingSet64;
+        Console.WriteLine($"Loaded {loaded.Count} players into a LinkedList");
+        return (heap, peak);
+    }
 
 //task 3 filreaders
         public static void FileWriter<T>(string path, T objectToWrite) where T : class
