@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Diagnostics;
+using System.Text;
 
 Console.WriteLine("TASK 1 - Hashtable");
 
@@ -60,4 +62,32 @@ foreach (DictionaryEntry entry in entries)
 {
     string name = entry.Key is Player p ? p.Name : $"{entry.Key} (not a Player!)";
     Console.WriteLine($"{name}: {entry.Value}");
+}
+
+Console.WriteLine("\nTASK 2 - Append vs Build");
+
+Stopwatch watch = new Stopwatch();
+int[] sizes = { 10_000, 50_000, 100_000, 200_000 };
+
+foreach (int size in sizes)
+{
+    string aOutput = "";
+    watch.Restart();
+    for (int i = 0; i < size; i++)
+    {
+        aOutput += "z";
+    }
+    watch.Stop();
+    double appendTime = watch.Elapsed.TotalSeconds;
+
+    StringBuilder bOutput = new();
+    watch.Restart();
+    for (int i = 0; i < size; i++)
+    {
+        bOutput.Append("z");
+    }
+    watch.Stop();
+    double buildTime = watch.Elapsed.TotalSeconds;
+
+    Console.WriteLine($"{size,8:N0} chars  |  Append: {appendTime,8:F4}s  |  Build: {buildTime,8:F6}s");
 }
